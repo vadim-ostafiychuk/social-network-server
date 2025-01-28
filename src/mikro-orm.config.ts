@@ -17,4 +17,9 @@ export default defineConfig({
   entitiesTs: ["src/**/*.entity.ts"],
   driver: PostgreSqlDriver,
   metadataProvider: TsMorphMetadataProvider,
+  migrations: {
+    path: "dist/migrations",
+    pathTs: "src/migrations",
+    transactional: true,
+  },
 });
