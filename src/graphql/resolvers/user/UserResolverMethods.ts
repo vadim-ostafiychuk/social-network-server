@@ -1,9 +1,9 @@
-export default class UserResolver {
+export default class UserResolverMethods {
   constructor() {}
 
   public getUser() {
     return {
-      id: "GSDG",
+      id: "asfas",
       description: "About me!",
     };
   }

@@ -1,11 +1,10 @@
-import UserResolver from "./user.resolvers";
+import path from "node:path";
+import { mergeResolvers } from "@graphql-tools/merge";
+import { loadFilesSync } from "@graphql-tools/load-files";
+import { IResolvers } from "@graphql-tools/utils";
 
-const userResolver = new UserResolver();
+const resolversArray = loadFilesSync(
+  path.join(__dirname, "./**/*.resolvers.*")
+);
 
-const resolvers = {
-  Query: {
-    user: userResolver.getUser,
-  },
-};
-
-export default resolvers;
+export default <IResolvers>mergeResolvers(resolversArray);

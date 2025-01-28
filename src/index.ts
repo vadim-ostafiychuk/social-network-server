@@ -3,8 +3,9 @@ import dotenv from "dotenv";
 import { createYoga } from "graphql-yoga";
 import yogaSchema from "./graphql/schema";
 import helmet from "helmet";
+import { MikroORM } from "@mikro-orm/postgresql";
+import mikroORMConfig from "./mikro-orm.config";
 
-//For env File
 dotenv.config();
 
 const app: Application = express();
@@ -32,6 +33,12 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use(yoga.graphqlEndpoint, yoga);
+
+MikroORM.init(mikroORMConfig)
+  .then((res) => {
+    console.log("DB Connected!");
+  })
+  .catch((err) => console.log(err));
 
 app.listen(port, () => {
   console.log(`Server is Fire at http://localhost:${port}`);

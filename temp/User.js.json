@@ -1,0 +1,34 @@
+{
+  "data": {
+    "_id": 0,
+    "properties": {
+      "id": {
+        "name": "id",
+        "kind": "scalar",
+        "primary": true,
+        "type": "number",
+        "array": false,
+        "runtimeType": "number"
+      }
+    },
+    "primaryKeys": ["id"],
+    "filters": {},
+    "hooks": {},
+    "indexes": [],
+    "uniques": [],
+    "className": "User",
+    "path": "./dist/entities/user.entity.js",
+    "name": "User",
+    "abstract": false,
+    "internal": true,
+    "constructorParams": [],
+    "toJsonParams": [],
+    "useCache": true,
+    "compositePK": false,
+    "simplePK": true,
+    "collection": "user"
+  },
+  "origin": "./dist/entities/user.entity.js",
+  "hash": "a4c01dc9ec962aba419ad352a9c49d24",
+  "version": "6.4.4"
+}
