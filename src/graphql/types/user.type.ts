@@ -1,7 +1,12 @@
 export default `
 type User {
   id: ID!
-  description: String
+  firstName: String!
+  lastName: String!
+  middleName: String
+  email: String!
+  createdAt: DateTimeISO!
+  updatedAt: DateTimeISO!
 }
 
 type Query {

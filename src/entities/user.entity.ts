@@ -1,6 +1,12 @@
-import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+  Entity,
+  EntityRepositoryType,
+  PrimaryKey,
+  Property,
+} from "@mikro-orm/core";
+import { UserRepository } from "../repositories/user.repository";
 
-@Entity()
+@Entity({ repository: () => UserRepository })
 export class User {
   @PrimaryKey()
   id!: number;
@@ -12,8 +18,19 @@ export class User {
   lastName!: string;
 
   @Property()
-  middleName!: string;
+  email!: string;
+
+  @Property({ nullable: true })
+  middleName: string | null = null;
+
+  @Property({ nullable: true, type: "text" })
+  hashedPassword: string | null = null;
 
   @Property()
-  email!: string;
+  createdAt = new Date();
+
+  @Property({ onUpdate: () => new Date() })
+  updatedAt = new Date();
+
+  [EntityRepositoryType]?: UserRepository;
 }

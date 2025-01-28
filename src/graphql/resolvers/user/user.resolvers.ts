@@ -1,12 +1,20 @@
 import { IResolvers } from "@graphql-tools/utils";
-import UserResolver from "./UserResolverMethods";
+import UserResolverMethods from "./UserResolverMethods";
+import { initORM } from "../../../db";
+import { RequestContext } from "@mikro-orm/core";
 
-const userResolver = new UserResolver();
+async function createResolvers() {
+  const db = await initORM();
 
-const resolvers: IResolvers = {
-  Query: {
-    user: userResolver.getUser,
-  },
-};
+  const userResolver = await UserResolverMethods.create();
 
-export default resolvers;
+  const resolvers: IResolvers = {
+    Query: {
+      user: userResolver.getUser.bind(userResolver), // Прив'язка контексту
+    },
+  };
+
+  return resolvers;
+}
+
+export default createResolvers;

@@ -1,10 +1,9 @@
 import express, { Express, Request, Response, Application } from "express";
 import dotenv from "dotenv";
 import { createYoga } from "graphql-yoga";
-import yogaSchema from "./graphql/schema";
+import createYogaSchemaAsync from "./graphql/schema";
 import helmet from "helmet";
-import { MikroORM } from "@mikro-orm/postgresql";
-import mikroORMConfig from "./mikro-orm.config";
+import { initORM } from "./db";
 
 dotenv.config();
 
@@ -22,24 +21,32 @@ app.use(
   })
 );
 
-const yoga = createYoga({
-  schema: yogaSchema,
-});
-
 const port = process.env.PORT || 8000;
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to Express & TypeScript Server");
 });
 
-app.use(yoga.graphqlEndpoint, yoga);
-
-MikroORM.init(mikroORMConfig)
-  .then((res) => {
+async function startServer() {
+  try {
+    await initORM({});
     console.log("DB Connected!");
-  })
-  .catch((err) => console.log(err));
 
-app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`);
-});
+    const schema = await createYogaSchemaAsync();
+
+    const yoga = createYoga({
+      schema,
+    });
+
+    app.use(yoga.graphqlEndpoint, yoga);
+
+    app.listen(port, () => {
+      console.log(`Server is Fire at http://localhost:${port}`);
+    });
+  } catch (err) {
+    console.error("Error starting server:", err);
+    process.exit(1);
+  }
+}
+
+startServer();
