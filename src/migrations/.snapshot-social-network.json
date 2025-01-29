@@ -35,16 +35,6 @@
           "length": 255,
           "mappedType": "string"
         },
-        "middle_name": {
-          "name": "middle_name",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "length": 255,
-          "mappedType": "string"
-        },
         "email": {
           "name": "email",
           "type": "varchar(255)",
@@ -52,6 +42,16 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "middle_name": {
+          "name": "middle_name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
           "length": 255,
           "mappedType": "string"
         },
@@ -88,6 +88,16 @@
       "name": "user",
       "schema": "public",
       "indexes": [
+        {
+          "columnNames": [
+            "email"
+          ],
+          "composite": false,
+          "keyName": "user_email_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
         {
           "keyName": "user_pkey",
           "columnNames": [

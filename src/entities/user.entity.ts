@@ -17,20 +17,20 @@ export class User {
   @Property()
   lastName!: string;
 
-  @Property()
+  @Property({ unique: true })
   email!: string;
 
   @Property({ nullable: true })
   middleName: string | null = null;
 
-  @Property({ nullable: true, type: "text" })
-  hashedPassword: string | null = null;
+  @Property({ type: "text" })
+  hashedPassword!: string;
 
-  @Property()
-  createdAt = new Date();
+  @Property({})
+  createdAt: Date = new Date();
 
   @Property({ onUpdate: () => new Date() })
-  updatedAt = new Date();
+  updatedAt: Date = new Date();
 
   [EntityRepositoryType]?: UserRepository;
 }
