@@ -10,7 +10,7 @@ async function createResolvers() {
 
   const resolvers: IResolvers = {
     Query: {
-      user: userResolver.getUser.bind(userResolver), // Прив'язка контексту
+      user: userResolver.getUser.bind(userResolver),
     },
   };
 
