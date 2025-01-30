@@ -4,12 +4,13 @@ type User {
   firstName: String!
   lastName: String!
   middleName: String
-  email: String!
+  email: EmailAddress!
   createdAt: DateTimeISO!
   updatedAt: DateTimeISO!
 }
 
 type Query {
   user: User
+  me: User! @auth
 }
 `;

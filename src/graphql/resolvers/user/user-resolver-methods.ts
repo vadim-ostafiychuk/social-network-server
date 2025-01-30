@@ -2,6 +2,7 @@ import { CreateRequestContext } from "@mikro-orm/core";
 import { initORM } from "../../../db";
 import { User } from "../../../entities/user.entity";
 import { UserRepository } from "../../../repositories/user.repository";
+import { CustomYogaContext } from "../../../interfaces/custom-yoga-context.interface";
 
 export default class UserResolverMethods {
   constructor(private readonly userRepository: UserRepository) {}
@@ -23,5 +24,15 @@ export default class UserResolverMethods {
     console.log(user);
 
     return user;
+  }
+
+  public async getMe(ctx: CustomYogaContext): Promise<User> {
+    const { user } = ctx;
+
+    if (user) {
+      return user;
+    } else {
+      throw new Error("Error!");
+    }
   }
 }

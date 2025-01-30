@@ -6,7 +6,7 @@ async function createResolvers() {
 
   const resolvers: IResolvers = {
     Query: {
-      user: userResolver.getUser.bind(userResolver),
+      me: (_, args, ctx) => userResolver.getMe(ctx),
     },
   };
 

@@ -1,16 +1,16 @@
 export default `
     type Mutation {
-        login(data: LoginDto!): AuthLoginResponse!
+        login(data: LoginDto!): AuthLoginResponse! 
         register(data: RegisterDto!): AuthLoginResponse!
     }
 
     input LoginDto {
-        email: String!
+        email: EmailAddress!
         password: String!
     }
 
     input RegisterDto {
-        email: String!
+        email: EmailAddress!
         password: String!
         firstName: String!
         lastName: String!
@@ -18,6 +18,6 @@ export default `
     }
 
     type AuthLoginResponse {
-        jwt: String!
+        jwt: JWT!
     }
 `;

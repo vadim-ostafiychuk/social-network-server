@@ -4,7 +4,7 @@ import type { StringValue } from "ms";
 // Витягуємо секретний ключ і час дії токену з process.env
 const SECRET_KEY = process.env.JWT_SECRET_KEY as string;
 const EXPIRES_IN: StringValue = (process.env.JWT_EXPIRES_IN ||
-  "1h") as StringValue;
+  "1d") as StringValue;
 
 if (!SECRET_KEY) {
   throw new Error("JWT_SECRET_KEY must be set in environment variables");
