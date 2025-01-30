@@ -10,7 +10,7 @@ if (!SECRET_KEY) {
   throw new Error("JWT_SECRET_KEY must be set in environment variables");
 }
 
-class JwtService {
+export class JwtService {
   private secretKey: string;
   private expiresIn: StringValue;
 
@@ -40,5 +40,3 @@ class JwtService {
     return jwt.decode(token) as JwtPayload | null;
   }
 }
-
-export default JwtService;

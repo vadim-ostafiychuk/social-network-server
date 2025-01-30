@@ -1,6 +1,5 @@
 import { IResolvers } from "@graphql-tools/utils";
-import UserResolverMethods from "./UserResolverMethods";
-import { initORM } from "../../../db";
+import UserResolverMethods from "./user-resolver-methods";
 
 async function createResolvers() {
   const userResolver = await UserResolverMethods.create();

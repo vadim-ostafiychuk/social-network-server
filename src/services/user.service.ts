@@ -4,11 +4,12 @@ import { User } from "../entities/user.entity";
 import { PasswordHasherInterface } from "../interfaces/password-hasher.interface";
 import { UserRepository } from "../repositories/user.repository";
 import { PasswordHasherService } from "./password-hasher.service";
-import { AuthService } from "./auth.service";
 import { RegisterDataInterface } from "../interfaces/register-data.interface";
-import JwtService from "./jwt.service";
+import { JwtService } from "./jwt.service";
 
 export class UserService {
+  static #instance: UserService;
+
   constructor(
     private readonly userRepository: UserRepository,
     private readonly passwordHasherService: PasswordHasherInterface,
@@ -16,19 +17,23 @@ export class UserService {
   ) {}
 
   static async create() {
-    const db = await initORM();
+    if (!UserService.#instance) {
+      const db = await initORM();
 
-    const userRepository = db.em.getRepository(User);
-    const passwordHasherService = new PasswordHasherService();
-    const jwtService = new JwtService();
+      const userRepository = db.em.getRepository(User);
+      const passwordHasherService = new PasswordHasherService();
+      const jwtService = new JwtService();
 
-    const instance = new UserService(
-      userRepository,
-      passwordHasherService,
-      jwtService
-    );
+      const instance = new UserService(
+        userRepository,
+        passwordHasherService,
+        jwtService
+      );
 
-    return instance;
+      UserService.#instance = instance;
+    }
+
+    return UserService.#instance;
   }
 
   @CreateRequestContext<UserService>((t) => t.userRepository)

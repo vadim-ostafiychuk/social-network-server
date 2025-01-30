@@ -1,14 +1,10 @@
 import { CreateRequestContext } from "@mikro-orm/core";
-import { initORM, Services } from "../../../db";
+import { initORM } from "../../../db";
 import { User } from "../../../entities/user.entity";
 import { UserRepository } from "../../../repositories/user.repository";
 
 export default class UserResolverMethods {
-  private userRepository: UserRepository;
-
-  constructor(userRepository: UserRepository) {
-    this.userRepository = userRepository;
-  }
+  constructor(private readonly userRepository: UserRepository) {}
 
   static async create() {
     const db = await initORM();

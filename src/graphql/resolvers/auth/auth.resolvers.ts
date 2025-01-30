@@ -1,5 +1,5 @@
 import { IResolvers } from "@graphql-tools/utils";
-import AuthResolverMethods from "./authResolverMethods";
+import AuthResolverMethods from "./auth-resolver-methods";
 
 async function createResolvers() {
   const authResolverMethods = await AuthResolverMethods.create();

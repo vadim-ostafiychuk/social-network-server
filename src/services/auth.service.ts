@@ -2,17 +2,27 @@ import { LoginResponse } from "../interfaces/login-response.interface";
 import { RegisterDataInterface } from "../interfaces/register-data.interface";
 import { GraphQLError } from "graphql";
 import { UserService } from "./user.service";
-import JwtService from "./jwt.service";
+import { UserMailService } from "./user-mail.service";
 
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  static #instance: AuthService;
+
+  private constructor(
+    private readonly userService: UserService,
+    private readonly userMailService: UserMailService
+  ) {}
 
   static async create() {
-    const userService = await UserService.create();
+    if (!AuthService.#instance) {
+      const userService = await UserService.create();
+      const userMailService = UserMailService.create();
 
-    const instance = new AuthService(userService);
+      const instance = new AuthService(userService, userMailService);
 
-    return instance;
+      AuthService.#instance = instance;
+    }
+
+    return AuthService.#instance;
   }
 
   public async register(data: RegisterDataInterface): Promise<LoginResponse> {
@@ -23,12 +33,17 @@ export class AuthService {
 
     const user = await this.userService.createUser(data);
 
+    this.userMailService
+      .sendRegistrationConfirmationEmail(user)
+      .catch((err) => console.log(err));
+
     const jwt = this.userService.generateJwtToken(user.id);
 
     return {
       jwt,
     };
   }
+
   public async login(email: string, password: string): Promise<LoginResponse> {
     const user = await this.userService.getUserByEmail(email);
     if (!user) {
