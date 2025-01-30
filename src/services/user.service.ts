@@ -6,6 +6,7 @@ import { UserRepository } from "../repositories/user.repository";
 import { PasswordHasherService } from "./password-hasher.service";
 import { RegisterDataInterface } from "../interfaces/register-data.interface";
 import { JwtService } from "./jwt.service";
+import { getUserInterface } from "../interfaces/get-user.interface";
 
 export class UserService {
   static #instance: UserService;
@@ -39,6 +40,13 @@ export class UserService {
   @CreateRequestContext<UserService>((t) => t.userRepository)
   public async getUserByEmail(email: string): Promise<User | null> {
     return await this.userRepository.findOne({ email });
+  }
+
+  @CreateRequestContext<UserService>((t) => t.userRepository)
+  public async getUser(data: getUserInterface): Promise<User | null> {
+    return await this.userRepository.findOne({
+      ...(data.id ? { id: data.id } : {}),
+    });
   }
 
   @CreateRequestContext<UserService>((t) => t.userRepository)

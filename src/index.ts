@@ -4,6 +4,7 @@ import { createYoga } from "graphql-yoga";
 import createYogaSchemaAsync from "./graphql/schema";
 import helmet from "helmet";
 import { initORM } from "./db";
+import { handleYogaContext } from "./handle-yoga-context";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ async function startServer() {
 
     const yoga = createYoga({
       schema,
+      context: handleYogaContext,
     });
 
     app.use(yoga.graphqlEndpoint, yoga);
