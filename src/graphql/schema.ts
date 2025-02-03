@@ -9,7 +9,7 @@ import gql from "graphql-tag";
 const customTypeDefs = gql`
   directive @auth on OBJECT | FIELD_DEFINITION
 
-  scalar File
+  scalar Upload
 
   type StatusResponse {
     status: Boolean!

@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql";
 import { LoginDataInterface } from "../../../interfaces/login-data.interface";
 import { LoginResponse } from "../../../interfaces/login-response.interface";
 import { RegisterDataInterface } from "../../../interfaces/register-data.interface";
@@ -19,7 +20,7 @@ export default class AuthResolverMethods {
     const { error } = loginSchema.validate(dto);
 
     if (error) {
-      throw new Error(`Validation failed: ${error.message}`);
+      throw new GraphQLError(`Validation failed: ${error.message}`);
     }
 
     const loginResponse = await this.authService.login(dto.email, dto.password);
@@ -31,7 +32,7 @@ export default class AuthResolverMethods {
     const { error } = RegisterSchema.validate(dto);
 
     if (error) {
-      throw new Error(`Validation failed: ${error.message}`);
+      throw new GraphQLError(`Validation failed: ${error.message}`);
     }
 
     const registerResponse = await this.authService.register(dto);

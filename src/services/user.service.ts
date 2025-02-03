@@ -1,4 +1,4 @@
-import { CreateRequestContext } from "@mikro-orm/core";
+import { CreateRequestContext, wrap } from "@mikro-orm/core";
 import { initORM } from "../db";
 import { User } from "../entities/user.entity";
 import { PasswordHasherInterface } from "../interfaces/password-hasher.interface";
@@ -7,6 +7,7 @@ import { PasswordHasherService } from "./password-hasher.service";
 import { RegisterDataInterface } from "../interfaces/register-data.interface";
 import { JwtService } from "./jwt.service";
 import { getUserInterface } from "../interfaces/get-user.interface";
+import { UpdateUserDataInterface } from "../interfaces/update-user-data.interface";
 
 export class UserService {
   static #instance: UserService;
@@ -72,6 +73,28 @@ export class UserService {
     user.id = id;
 
     return user;
+  }
+
+  @CreateRequestContext<UserService>((t) => t.userRepository)
+  public async updateUser(
+    user: User,
+    data: UpdateUserDataInterface
+  ): Promise<User> {
+    if (data.mainProfileImage || data.mainProfileImage === null) {
+      wrap(user).assign({
+        mainProfileImage: {
+          id: data.mainProfileImage,
+        },
+      });
+    }
+
+    wrap(user).assign({
+      updatedAt: new Date(),
+    });
+
+    const updatedUser = await this.userRepository.upsert(user);
+
+    return updatedUser;
   }
 
   public generateJwtToken(userId: number): string {

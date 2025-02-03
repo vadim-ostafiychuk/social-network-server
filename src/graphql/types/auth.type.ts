@@ -1,23 +1,25 @@
-export default `
-    type Mutation {
-        login(data: LoginDto!): AuthLoginResponse! 
-        register(data: RegisterDto!): AuthLoginResponse!
-    }
+import gql from "graphql-tag";
 
-    input LoginDto {
-        email: EmailAddress!
-        password: String!
-    }
+export default gql`
+  type Mutation {
+    login(data: LoginDto!): AuthLoginResponse!
+    register(data: RegisterDto!): AuthLoginResponse!
+  }
 
-    input RegisterDto {
-        email: EmailAddress!
-        password: String!
-        firstName: String!
-        lastName: String!
-        middleName: String
-    }
+  input LoginDto {
+    email: EmailAddress!
+    password: String!
+  }
 
-    type AuthLoginResponse {
-        jwt: JWT!
-    }
+  input RegisterDto {
+    email: EmailAddress!
+    password: String!
+    firstName: String!
+    lastName: String!
+    middleName: String
+  }
+
+  type AuthLoginResponse {
+    jwt: JWT!
+  }
 `;

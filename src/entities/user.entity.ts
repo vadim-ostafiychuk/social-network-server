@@ -30,10 +30,7 @@ export class User {
   @Property({ type: "text" })
   hashedPassword!: string;
 
-  @OneToOne({
-    inversedBy: "mainProfileImage",
-    nullable: true,
-  })
+  @OneToOne(() => File, (file) => file.mainProfileImage, { owner: true })
   mainProfileImage?: File;
 
   @OneToMany(() => File, (file) => file.user)

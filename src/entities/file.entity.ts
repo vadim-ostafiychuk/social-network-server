@@ -29,8 +29,8 @@ export class File {
   user?: User;
 
   @OneToOne(() => User, {
-    nullable: true,
     mappedBy: "mainProfileImage",
+    nullable: true,
   })
   mainProfileImage?: User;
 

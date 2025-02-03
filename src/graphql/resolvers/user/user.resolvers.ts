@@ -8,6 +8,9 @@ async function createResolvers() {
     Query: {
       me: (_, args, ctx) => userResolver.getMe(ctx),
     },
+    Mutation: {
+      updateMe: (_, { data }, ctx) => userResolver.updateMe(data, ctx),
+    },
   };
 
   return resolvers;
