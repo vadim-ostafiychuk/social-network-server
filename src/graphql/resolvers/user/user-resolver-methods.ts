@@ -3,27 +3,28 @@ import { initORM } from "../../../db";
 import { User } from "../../../entities/user.entity";
 import { UserRepository } from "../../../repositories/user.repository";
 import { CustomYogaContext } from "../../../interfaces/custom-yoga-context.interface";
+import { UpdateUserDataInterface } from "../../../interfaces/update-user-data.interface";
+import { UserService } from "../../../services/user.service";
 
 export default class UserResolverMethods {
-  constructor(private readonly userRepository: UserRepository) {}
+  private static instance: UserResolverMethods;
+
+  private constructor(private readonly userService: UserService) {}
 
   static async create() {
-    const db = await initORM();
+    if (!UserResolverMethods.instance) {
+      const userService = await UserService.create();
 
-    const userRepository = db.em.getRepository(User);
+      UserResolverMethods.instance = new UserResolverMethods(userService);
+    }
 
-    const instance = new UserResolverMethods(userRepository);
-
-    return instance;
+    return UserResolverMethods.instance;
   }
 
-  @CreateRequestContext<UserResolverMethods>((t) => t.userRepository)
   public async getUser() {
-    const user = await this.userRepository.findOneOrFail({ id: 2 });
+    // const user = await this.userRepository.findOneOrFail({ id: 2 });
 
-    console.log(user);
-
-    return user;
+    return {};
   }
 
   public async getMe(ctx: CustomYogaContext): Promise<User> {
@@ -34,5 +35,15 @@ export default class UserResolverMethods {
     } else {
       throw new Error("Error!");
     }
+  }
+
+  public async updateMe(data: UpdateUserDataInterface, ctx: CustomYogaContext) {
+    const user = ctx.user;
+
+    if (user) {
+      await this.userService.updateUser(user, data);
+    }
+
+    return user;
   }
 }

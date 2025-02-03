@@ -18,10 +18,6 @@ export default class UploadResolverMethods {
   }
 
   async uploadFile(file: File, data: UploadDataInterface) {
-    const isSuccess = await this.fileService.uploadFile(file, data);
-
-    return {
-      status: isSuccess,
-    };
+    return this.fileService.uploadFile(file, data);
   }
 }

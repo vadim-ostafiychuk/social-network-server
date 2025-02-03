@@ -5,7 +5,16 @@ export default gql`
     userId: Int
   }
 
+  type File {
+    id: Int!
+    filename: String!
+    mimetype: String!
+    url: String!
+    createdAt: DateTimeISO!
+    updatedAt: DateTimeISO!
+  }
+
   type Mutation {
-    uploadFile(file: File!, data: UploadData!): StatusResponse!
+    uploadFile(file: Upload!, data: UploadData!): File! @auth
   }
 `;

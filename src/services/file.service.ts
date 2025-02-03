@@ -1,3 +1,4 @@
+import { File as FileDb } from "../entities/file.entity";
 import { FileServiceInterface } from "../interfaces/file-service.interface";
 import { StorageServiceInterface } from "../interfaces/storage-service.interface";
 import { UploadDataInterface } from "../interfaces/upload-data.interface";
@@ -26,7 +27,7 @@ export class FileService implements FileServiceInterface {
     return FileService.instance;
   }
 
-  async uploadFile(file: File, data: UploadDataInterface) {
+  async uploadFile(file: File, data: UploadDataInterface): Promise<FileDb> {
     let folder;
 
     if (data.userId) {
@@ -37,14 +38,12 @@ export class FileService implements FileServiceInterface {
 
     const { type, name } = file;
 
-    await this.fileDatabaseService.saveFileMetadata({
+    return this.fileDatabaseService.saveFileMetadata({
       filename: name,
       mimetype: type,
       url: url,
       userId: data.userId,
     });
-
-    return true;
   }
   async deleteFile(fileId: string) {}
 }
