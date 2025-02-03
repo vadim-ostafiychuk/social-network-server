@@ -30,6 +30,12 @@ export class User {
   @Property({ type: "text" })
   hashedPassword!: string;
 
+  @OneToOne({
+    inversedBy: "mainProfileImage",
+    nullable: true,
+  })
+  mainProfileImage?: File;
+
   @OneToMany(() => File, (file) => file.user)
   profileImages? = new Collection<File>(this);
 

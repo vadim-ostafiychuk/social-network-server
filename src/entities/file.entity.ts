@@ -2,6 +2,7 @@ import {
   Entity,
   EntityRepositoryType,
   ManyToOne,
+  OneToOne,
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
@@ -26,6 +27,12 @@ export class File {
     nullable: true,
   })
   user?: User;
+
+  @OneToOne(() => User, {
+    nullable: true,
+    mappedBy: "mainProfileImage",
+  })
+  mainProfileImage?: User;
 
   @Property({})
   createdAt: Date = new Date();

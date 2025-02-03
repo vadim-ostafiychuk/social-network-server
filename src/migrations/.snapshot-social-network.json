@@ -64,6 +64,15 @@
           "nullable": false,
           "mappedType": "text"
         },
+        "main_profile_image_id": {
+          "name": "main_profile_image_id",
+          "type": "int",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "integer"
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamptz",
@@ -99,6 +108,16 @@
           "unique": true
         },
         {
+          "columnNames": [
+            "main_profile_image_id"
+          ],
+          "composite": false,
+          "keyName": "user_main_profile_image_id_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "user_pkey",
           "columnNames": [
             "id"
@@ -110,7 +129,21 @@
         }
       ],
       "checks": [],
-      "foreignKeys": {},
+      "foreignKeys": {
+        "user_main_profile_image_id_foreign": {
+          "constraintName": "user_main_profile_image_id_foreign",
+          "columnNames": [
+            "main_profile_image_id"
+          ],
+          "localTableName": "public.user",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.file",
+          "deleteRule": "set null",
+          "updateRule": "cascade"
+        }
+      },
       "nativeEnums": {}
     },
     {
