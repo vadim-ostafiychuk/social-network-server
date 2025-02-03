@@ -4,16 +4,23 @@ import { typeDefs as scalarTypeDefs } from "graphql-scalars";
 import loadResolvers from "./resolvers";
 import { resolvers as scalarResolvers } from "graphql-scalars";
 import { authDirective } from "./directives/auth.directive";
+import gql from "graphql-tag";
 
-const directiveTypeDefs = `
+const customTypeDefs = gql`
   directive @auth on OBJECT | FIELD_DEFINITION
+
+  scalar File
+
+  type StatusResponse {
+    status: Boolean!
+  }
 `;
 
 async function createSchemaAsync() {
   const resolvers = await loadResolvers();
 
   let schema = createSchema({
-    typeDefs: [directiveTypeDefs, typeDefs, scalarTypeDefs],
+    typeDefs: [customTypeDefs, typeDefs, scalarTypeDefs],
     resolvers: [resolvers, scalarResolvers],
   });
 

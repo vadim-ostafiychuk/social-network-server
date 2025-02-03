@@ -1,10 +1,14 @@
 import {
+  Collection,
   Entity,
   EntityRepositoryType,
+  OneToMany,
+  OneToOne,
   PrimaryKey,
   Property,
 } from "@mikro-orm/core";
 import { UserRepository } from "../repositories/user.repository";
+import { File } from "./file.entity";
 
 @Entity({ repository: () => UserRepository })
 export class User {
@@ -25,6 +29,9 @@ export class User {
 
   @Property({ type: "text" })
   hashedPassword!: string;
+
+  @OneToMany(() => File, (file) => file.user)
+  profileImages? = new Collection<File>(this);
 
   @Property({})
   createdAt: Date = new Date();

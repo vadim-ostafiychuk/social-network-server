@@ -1,4 +1,3 @@
-import { injectable } from "inversify";
 import { PasswordHasherInterface } from "../interfaces/password-hasher.interface";
 import * as bcrypt from "bcrypt";
 
